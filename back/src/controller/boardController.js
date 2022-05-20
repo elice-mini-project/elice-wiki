@@ -10,6 +10,7 @@ class boardController {
       }
 
       const userId = req.currentUserId;
+      console.log(userId);
       const { postId, title, body } = req.body;
 
       await boardService.addBoard({
@@ -19,7 +20,7 @@ class boardController {
         body,
       });
 
-      res.status(201).json({ status: success });
+      res.status(201).json({ status: "success" });
     } catch (error) {
       next(error);
     }
@@ -30,7 +31,7 @@ class boardController {
       const { boardId } = req.params;
       const foundBoard = await boardService.getBoard({ boardId });
 
-      res.status(200).json({ status: success, payload: foundBoard });
+      res.status(200).json({ status: "success", payload: foundBoard });
     } catch (error) {
       next(error);
     }
@@ -41,7 +42,7 @@ class boardController {
       const { userId } = req.params;
       const foundList = await boardService.getBoardList({ userId });
 
-      res.status(200).json({ status: success, payload: foundList });
+      res.status(200).json({ status: "success", payload: foundList });
     } catch (error) {
       next(error);
     }
@@ -72,7 +73,7 @@ class boardController {
       const { boardId } = req.params;
       await boardService.deleteBoard({ boardId });
 
-      res.status(200).json({ status: success });
+      res.status(200).json({ status: "success" });
     } catch (error) {
       next(error);
     }

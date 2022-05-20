@@ -17,7 +17,7 @@ class commentController {
         content,
       });
 
-      res.status(201).json({ status: success });
+      res.status(201).json({ status: "success" });
     } catch (error) {
       next(error);
     }
@@ -37,7 +37,7 @@ class commentController {
         content,
       });
 
-      res.status(201).json({ status: success });
+      res.status(201).json({ status: "success" });
     } catch (error) {
       next(error);
     }
@@ -48,7 +48,7 @@ class commentController {
       const { commentId } = req.params;
       const foundComment = await commentService.getComment({ commentId });
 
-      res.status(200).json({ status: success, payload: foundComment });
+      res.status(200).json({ status: "success", payload: foundComment });
     } catch (error) {
       next(error);
     }
@@ -59,7 +59,7 @@ class commentController {
       const { boardId } = req.params;
       const foundList = await commentService.getCommentList({ boardId });
 
-      res.status(200).json({ status: success, payload: foundList });
+      res.status(200).json({ status: "success", payload: foundList });
     } catch (error) {
       next(error);
     }
@@ -77,7 +77,7 @@ class commentController {
         toUpdate,
       });
 
-      res.status(200).json({ status: success });
+      res.status(200).json({ status: "success" });
     } catch (error) {
       next(error);
     }
@@ -88,7 +88,7 @@ class commentController {
       const { commentId } = req.params;
       await commentService.deleteComment({ commentId });
 
-      res.status(200).json({ status: success });
+      res.status(200).json({ status: "success" });
     } catch (error) {
       next(error);
     }
