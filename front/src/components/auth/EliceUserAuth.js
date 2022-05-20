@@ -1,15 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/actions/userAction";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
 import styled from "styled-components";
+import DOMPurify from "dompurify";
 import * as Api from "../../api";
 
 const EliceUserAuth = () => {
     const [answer, setAnswer] = useState(undefined);
+    const [authData, setAuthData] = useState(undefined);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const getAuthData = async () => {
+        try {
+            const { data } = await Api.get("auth");
+            setAuthData(data.payload);
+        } catch (error) {
+            console.log("데이터를 불러오는데 실패햐였습니다.", error);
+        }
+    };
+
+    useEffect(() => {
+        getAuthData();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -32,17 +47,13 @@ const EliceUserAuth = () => {
 
     return (
         <Container>
-            <img
-                src="/image/cal-bot.png"
-                alt="거북이"
-                style={{ width: "40%" }}
-            />
+            <img src={authData?.url} alt="거북이" style={{ width: "40%" }} />
             <Title>
-                엘리스 레이서들의 <br />
-                <span style={{ color: "#7353EA" }}>"체크인/체크아웃"</span>을
-                책임지는
-                <br />이 <span style={{ color: "#C0CE5D" }}>거북이</span>의
-                이름은 무엇일까요?
+                <div
+                    dangerouslySetInnerHTML={{
+                        __html: DOMPurify.sanitize(authData?.source),
+                    }}
+                />
             </Title>
             <SubTitle>
                 * 띄어쓰기를 지켜서 작성해야 올바르게 적용됩니다.

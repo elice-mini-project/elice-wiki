@@ -38,13 +38,13 @@ class userService {
         return loginUser;
     }
 
-    static async findUser({ userId }) {
-        const result = await userModel.findById({ userId });
-        return result;
-    }
-
     static async findAll() {
         const users = await userModel.findAll();
+        return users;
+    }
+
+    static async findUser({ userId }) {
+        const users = await userModel.findById({ userId });
         return users;
     }
 

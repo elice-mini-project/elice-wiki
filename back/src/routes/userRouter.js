@@ -22,7 +22,7 @@ userRouter.post("/user/sign", userController.sign);
  *    requestBody:
  *      required: true
  *      content:
- *        application.json:
+ *        application/json:
  *          schema:
  *            type: object
  *            properties:
@@ -32,14 +32,50 @@ userRouter.post("/user/sign", userController.sign);
  *
  *    responses:
  *      200:
- *       description: 가입은 로그인과 같은 경로로 google oauth를 통해서만 이뤄지며, findOrCreate를 통해 db에 있으면 로그인, 없으면 가입 후 로그인 방식으로 진행된다.
- *       content:
- *         type: object
- *         properties:
- *          status:
- *              type: string
- *          payload:
- *              type: string
+ *        description: success
+ *        content:
+ *          application/json:
+ *            properties:
+ *              status:
+ *                type: string
+ *                example: "success"
+ *              payload:
+ *                type: string
+ *
+ */
+
+userRouter.post("/user/auth", loginRequired, userController.auth);
+/**
+ * @swagger
+ * paths:
+ *  /user/auth:
+ *   post:
+ *    tags: [User]
+ *    summary: authoriztion User by Q&A
+ *    requestHeaders: [Authorization]
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            properties:
+ *              answer:
+ *                  type: string
+ *                  example: "레이서 잊지마"
+ *
+ *    responses:
+ *      200:
+ *        description: success
+ *        content:
+ *          application/json:
+ *            properties:
+ *              status:
+ *                type: string
+ *                example: "success"
+ *              payload:
+ *                type: object
+ *
  */
 userRouter.post("/user/auth", loginRequired, userController.auth);
 userRouter.delete("/users/:userId", userController.deleteUser);

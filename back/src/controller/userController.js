@@ -16,20 +16,20 @@ class userController {
         }
     }
 
-    static async getCurrentUser(req, res, next) {
-        const { userId } = req.currentUser;
+    static async getAllUsers(req, res, next) {
         try {
-            const currentUser = await userService.findUser({ userId });
-            res.status(200).json({ status: "success", payload: currentUser });
+            const users = await userService.findAll();
+            res.status(200).json({ status: "success", payload: users });
         } catch (error) {
             next(error);
         }
     }
 
-    static async getAllUsers(req, res, next) {
+    static async getCurrentUser(req, res, next) {
+        const { userId } = req.currentUser;
         try {
-            const users = await userService.findAll();
-            res.status(200).json({ status: "success", payload: users });
+            const currentUser = await userService.findUser({ userId });
+            res.status(200).json({ status: "success", payload: currentUser });
         } catch (error) {
             next(error);
         }
