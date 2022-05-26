@@ -72,8 +72,7 @@ function RecentList() {
                     : post.week.slice(-1) === "3"
                     ? "rd"
                     : "th"
-                }`}
-                &nbsp;week
+                } week`}
               </CreatedAt>
             </CardContent>
           </Card>
