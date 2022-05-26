@@ -22,7 +22,7 @@ const WeekList = ({ setPosts, setGoal }) => {
         </Button>
 
         {new Array(24).fill(null).map((_, idx) => (
-          <>
+          <div key={Math.random()}>
             <Button
               value={idx}
               key={`week_${idx}`}
@@ -39,7 +39,7 @@ const WeekList = ({ setPosts, setGoal }) => {
               {String(idx + 1).padStart(2, "0")}
             </Button>
             <Divider orientation="vertical" variant="middle" flexItem />
-          </>
+          </div>
         ))}
 
         <Button

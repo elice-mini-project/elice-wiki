@@ -3,7 +3,7 @@ import Header from "../Header";
 import Intro from "../Intro/Intro";
 import UserHome from "./UserHome";
 import PostList from "./PostList";
-import WeekList from "./WeekList";
+// import WeekList from "./WeekList";
 import RecentList from "./RecentList";
 
 const Home = () => {
@@ -13,9 +13,9 @@ const Home = () => {
     <>
       {userState?.authorized ? (
         <>
-          <UserHome />
           <Header />
-          <WeekList />
+          {/* <WeekList /> */}
+          <UserHome />
           <PostList />
           <RecentList />
         </>

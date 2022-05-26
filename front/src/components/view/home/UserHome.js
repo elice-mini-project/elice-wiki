@@ -81,9 +81,9 @@ function UserHome() {
   return (
     <>
       <div style={{ minHeight: "100vh", height: "auto" }}>
-        <header style={{ height: "60px" }}>
+        {/* <header style={{ height: "60px" }}>
           <button onClick={() => handleLogout()}>로그아웃</button>
-        </header>
+        </header> */}
         <WeekList setPosts={setPosts} posts={posts} setGoal={setGoal} />
         <Container>
           <ContentsSide>
