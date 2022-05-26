@@ -7,6 +7,7 @@ import { loginUser } from "./store/actions/userAction";
 import * as Api from "./api";
 
 import Home from "./components/view/home/Home";
+import Search from "./components/view/home/Search";
 import EliceUserAuth from "./components/auth/EliceUserAuth";
 import GoogleLoading from "./components/auth/GoogleLoading";
 import Admin from "./components/admin/Admin";
@@ -58,6 +59,7 @@ function App() {
           <Route path="/" exact element={<Home />} />
           {!userState?.authorized && <Route path="/auth" exact element={<EliceUserAuth />} />}
           <Route path="/test" exact element={<GoogleLoading />} />
+          <Route path="/posts" element={<Search />} />
           <Route path="*" element={<Home />} />
           <Route path="/admin" element={<Admin />}>
             <Route path="posts" element={<ManagePosts />} />

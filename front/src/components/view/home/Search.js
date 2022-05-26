@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
-// import { logoutUser } from "../../../store/actions/userAction";
+import Header from "../Header";
+import PostList from "./PostList";
+import RecentList from "./RecentList";
 import Loader from "../../Loader";
 import WeekList from "./WeekList";
 import Goal from "./Goal";
 import TagBtn from "./TagBtn";
-import PostList from "./PostList";
 import { getPosts, getTags } from "./HomeData";
 import { Button } from "@mui/material";
 import styled from "styled-components";
 
-function UserHome() {
+function Search() {
+  const [query, setQuery] = useState([]);
   const [posts, setPosts] = useState([]);
   const [tags, setTags] = useState(undefined);
   const [goal, setGoal] = useState(undefined);
@@ -20,20 +22,13 @@ function UserHome() {
   const [totalPage, setTotalPage] = useState(undefined);
   const [isLoaded, setIsLoaded] = useState(false);
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
-  const target = useRef();
   let num = 1;
 
+  const target = useRef();
   const navigate = useNavigate();
-  //   const dispatch = useDispatch();
+  const location = useLocation();
   const userState = useSelector((state) => (state ? state.userReducer.user : null));
   const userAuthorized = userState?.authorized;
-
-  //   const handleLogout = () => {
-  //     // dispatch 함수를 이용해 로그아웃함.
-  //     dispatch(logoutUser());
-  //     // 기본 페이지로 돌아감.
-  //     navigate("/");
-  //   };
 
   const fetchSetState = (data) => {
     setPosts((prev) => [...prev, ...data.payload.postListInfo]);
@@ -42,9 +37,11 @@ function UserHome() {
     setIsLoaded(false);
   };
 
-  const loadMore = () => {
-    setPage((curr) => curr + 1);
-  };
+  const loadMore = () => setPage((curr) => curr + 1);
+
+  useEffect(() => {
+    setQuery(new URLSearchParams(location.search).get("search"));
+  }, [location]);
 
   useEffect(() => {
     if (!userAuthorized) {
@@ -75,15 +72,13 @@ function UserHome() {
   }, [observing, num, totalPage]);
 
   if (!isFetchCompleted) {
-    return <div>로딩중</div>;
+    return <div>Loading...</div>;
   }
 
   return (
     <>
       <div style={{ minHeight: "100vh", height: "auto" }}>
-        {/* <header style={{ height: "60px" }}>
-          <button onClick={() => handleLogout()}>로그아웃</button>
-        </header> */}
+        <Header />
         <WeekList setPosts={setPosts} posts={posts} setGoal={setGoal} />
         <Container>
           <ContentsSide>
@@ -92,17 +87,18 @@ function UserHome() {
             </div>
           </ContentsSide>
           <Contents>
-            <PostList posts={posts} />
+            <PostList posts={posts.filter((post) => post.title.match(new RegExp(query, "i")))} />
             <TargetElement ref={target}>{isLoaded && <Loader />}</TargetElement>
           </Contents>
           <ContentsSide>{goal && <Goal goal={goal} />}</ContentsSide>
         </Container>
+        <RecentList />
       </div>
     </>
   );
 }
 
-export default UserHome;
+export default Search;
 
 const TargetElement = styled(Button)`
   width: 100%;
