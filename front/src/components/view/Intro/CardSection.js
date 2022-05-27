@@ -64,8 +64,7 @@ const CardSection = () => {
         <TextWrapper {...animatedItem[0]}>
           <Title>누군가 멋진 제목을 지어주세요</Title>
           <Description>
-            두 질문에 대한 답으로, 우리는 마음을 담아 #elice-wiki를
-            준비했습니다.
+            두 질문에 대한 답으로, 우리는 마음을 담아 #elice-wiki를 준비했습니다.
           </Description>
         </TextWrapper>
         <CardWrapper {...animatedItem[1]}>

@@ -2,40 +2,40 @@ import { Grid, TextareaAutosize } from "@mui/material";
 import styled from "styled-components";
 
 function WriteForm({ title, setTitle, body, setBody }) {
-    return (
-        <>
-            <Grid
-                sx={{
-                    width: "100%",
-                    marginBottom: "20px",
-                }}
-            >
-                <TitleWrite
-                    value={title}
-                    required
-                    maxRows={1}
-                    placeholder="제목을 입력하세요"
-                    onChange={(e) => setTitle(e.target.value)}
-                />
-            </Grid>
+  return (
+    <>
+      <Grid
+        sx={{
+          width: "100%",
+          marginBottom: "20px",
+        }}
+      >
+        <TitleWrite
+          value={title}
+          required
+          maxRows={1}
+          placeholder="제목을 입력하세요"
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </Grid>
 
-            <Grid
-                sx={{
-                    width: "100%",
-                    marginBottom: "20px",
-                }}
-            >
-                <Write
-                    value={body}
-                    required
-                    minRows={20}
-                    maxRows={20}
-                    placeholder="내용을 입력하세요"
-                    onChange={(e) => setBody(e.target.value)}
-                />
-            </Grid>
-        </>
-    );
+      <Grid
+        sx={{
+          width: "100%",
+          marginBottom: "20px",
+        }}
+      >
+        <Write
+          value={body}
+          required
+          minRows={20}
+          maxRows={20}
+          placeholder="내용을 입력하세요"
+          onChange={(e) => setBody(e.target.value)}
+        />
+      </Grid>
+    </>
+  );
 }
 
 const TitleWrite = styled(TextareaAutosize)`

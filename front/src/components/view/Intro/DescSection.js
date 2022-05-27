@@ -77,29 +77,29 @@ export const DescSection = () => {
         <ContentWrapper>
           <Title1>간단한 기능설명</Title1>
           <Description>
-            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요.
-            제가 무슨 말을 하는지 이해하지 못하도록 설명을 최소화했어요.
+            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요. 제가 무슨 말을
+            하는지 이해하지 못하도록 설명을 최소화했어요.
           </Description>
         </ContentWrapper>
         <ContentWrapper>
           <Title2>간단한 기능설명</Title2>
           <Description>
-            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요.
-            제가 무슨 말을 하는지 이해하지 못하도록 설명을 최소화했어요.
+            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요. 제가 무슨 말을
+            하는지 이해하지 못하도록 설명을 최소화했어요.
           </Description>
         </ContentWrapper>
         <ContentWrapper>
           <Title3>간단한 기능설명</Title3>
           <Description>
-            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요.
-            제가 무슨 말을 하는지 이해하지 못하도록 설명을 최소화했어요.
+            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요. 제가 무슨 말을
+            하는지 이해하지 못하도록 설명을 최소화했어요.
           </Description>
         </ContentWrapper>
         <ContentWrapper>
           <Title4>간단한 기능설명</Title4>
           <Description>
-            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요.
-            제가 무슨 말을 하는지 이해하지 못하도록 설명을 최소화했어요.
+            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요. 제가 무슨 말을
+            하는지 이해하지 못하도록 설명을 최소화했어요.
           </Description>
         </ContentWrapper>
       </InnerWrapper>

@@ -10,6 +10,6 @@
         "start": "concurrently \"npm run back\" \"npm run front\""
     },
     "dependencies": {
-        "concurrently": "^7.2.0"
+        "concurrently": "^7.2.1"
     }
 }

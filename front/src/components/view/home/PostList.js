@@ -49,7 +49,7 @@ function PostList() {
       );
       observer.observe(target.current);
     }
-  }, [observing, num]);
+  }, [observing, num, totalPage]);
 
   if (!isFetchCompleted) {
     return <div>로딩중</div>;
