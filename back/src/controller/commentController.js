@@ -1,5 +1,6 @@
 import is from "@sindresorhus/is";
 import { commentService } from "../services/commentService";
+import { userService } from "../services/userService";
 import { headerError } from "../utils/errorMessages";
 
 class commentController {
@@ -9,11 +10,14 @@ class commentController {
         throw new Error(headerError);
       }
       const { userId } = req.currentUser;
+      const user = await userService.findUser({ userId });
+      const userName = user["name"];
       const { boardId, content } = req.body;
 
       await commentService.addComment({
         boardId,
         userId,
+        userName,
         content,
       });
 
@@ -29,11 +33,14 @@ class commentController {
         throw new Error(headerError);
       }
       const { userId } = req.currentUser;
+      const user = await userService.findUser({ userId });
+      const userName = user["name"];
       const { target, content } = req.body;
 
       await commentService.addReComment({
         target,
         userId,
+        userName,
         content,
       });
 
@@ -65,12 +72,22 @@ class commentController {
     }
   }
 
+  static async getCommentListByUserId(req, res, next) {
+    try {
+      const { userId } = req.params;
+      const foundList = await commentService.getCommentListByUserId({ userId });
+
+      res.status(200).json({ status: "success", payload: foundList });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   static async setComment(req, res, next) {
     try {
       const { commentId } = req.params;
-      const content = req.body.content ?? null;
 
-      const toUpdate = { content };
+      const toUpdate = req.body;
 
       await commentService.setComment({
         commentId,

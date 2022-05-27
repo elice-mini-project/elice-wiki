@@ -1,18 +1,29 @@
 import { postModel } from "../db/models/post/post";
 import { tagModel } from "../db/models/tag/index";
+import {
+    existError,
+    matchError,
+    addError,
+    findError,
+    deleteError,
+    headerError,
+} from "../utils/errorMessages";
 
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 
-const writePost = (date, postId, body) => {
+const writePost = (postId, body) => {
+    const pwd = process.env.PWD;
     // post  추가 시 content를 파일로 만들어 폴더에 저장
-    const savePath_post = "../../../front/src/_post";
-    const savePath = `${__dirname}`;
-    // postId는 라우팅 경로로 사용될 수 있으므로 shortId로 만드는 것도 괜찮을 듯
+    const savePath_post = `${pwd}/../front/src/_post`;
+    const exist_post = fs.existsSync(savePath_post);
+    if (!exist_post) {
+        fs.mkdirSync(savePath_post);
+    }
 
     // front/src/_post에 md파일이 저장된다
     fs.writeFile(
-        `${savePath}/${savePath_post}/${postId}.md`,
+        `${savePath_post}/${postId}.md`,
         "\ufeff" + body,
         {
             encoding: "utf-8",
@@ -79,10 +90,17 @@ class postService {
     static async addPost({ user_id, week, tag, lastmod_user, title, body }) {
         // body에서 받은 text를 md파일로 저장
         // todo: 함수 다이어트 필요
+        if (!user_id || !week || !tag || !lastmod_user || !title || !body) {
+            throw new Error(addError("post"));
+        }
 
         const { date, dateDot } = getNowDateToString();
         const post_id = uuidv4();
-        writePost(date, post_id, body);
+        const createFile = writePost(post_id, body);
+
+        if (createFile === "error") {
+            throw new Error("create file error");
+        }
 
         // tag 테이블에 추가하기
         const storedTag = makeTag({ tagList: tag, post_id });
@@ -98,7 +116,7 @@ class postService {
         };
         const insertedPost = await postModel.insertPost({ newPost });
         let addField = { ...insertedPost };
-        addField.payload.post_id = post_id;
+        addField.post_id = post_id;
 
         return addField;
     }
@@ -106,36 +124,109 @@ class postService {
     static async getPostByPostId({ post_id }) {
         // post_id를 기준으로 검색
         const getOnePost = await postModel.getPostByPostId({ post_id });
+        if (!getOnePost) {
+            throw new Error(findError("post"));
+        }
         return getOnePost;
     }
 
     static async getPostByWeek({ week, page, perPage }) {
         // week 기준으로 post 검색
-        const getPosts = await postModel.findByWeek({ week, page, perPage });
-        return getPosts;
+        const { totalPage, postListInfo } = await postModel.findByWeek({
+            week,
+            page,
+            perPage,
+        });
+        if (!postListInfo) {
+            throw new Error(findError("post"));
+        }
+        const payload = {
+            totalPage,
+            postListInfo,
+        };
+
+        return payload;
     }
 
     static async getPostsByTag({ tag, page, perPage }) {
-        const posts = await postModel.findByTag({ tag, page, perPage });
-        return posts;
+        const { totalPage, postListInfo } = await postModel.findByTag({
+            tag,
+            page,
+            perPage,
+        });
+        if (!postListInfo) {
+            throw new Error(findError("post"));
+        }
+        const payload = {
+            totalPage,
+            postListInfo,
+        };
+        return payload;
     }
 
-    static async updatePost({ week, tag, title, postId }) {
+    static async updatePost({
+        body,
+        week,
+        tag,
+        title,
+        postId,
+        lastmod_user,
+        user_id,
+    }) {
         // todo: body는 이후에 수정
+        if (!week || !tag || !title || !postId) {
+            throw new Error(addError("post"));
+        }
+
+        writePost(postId, body);
+
         const getTag = makeTag({ tagList: tag, post_id: postId });
         const update = {
-            postId,
+            user_id,
+            lastmod_user,
             week,
             tag: getTag,
             title,
         };
         const updatePost = await postModel.updatePost({ postId, update });
-        return { updatePost, message: "게시글의 정보가 수정되었습니다." };
+        return updatePost;
     }
 
     static async getAllPost({ page, perPage }) {
-        const posts = await postModel.findAllPost({ page, perPage });
-        return posts;
+        const { totalPage, postListInfo } = await postModel.findAllPost({
+            page,
+            perPage,
+        });
+        if (!postListInfo) {
+            throw new Error(findError("post"));
+        }
+        const payload = {
+            totalPage,
+            postListInfo,
+        };
+
+        return payload;
+    }
+
+    static async deletePost({ postId }) {
+        const deleteResult = await postModel.deletePost({ postId });
+        return deleteResult;
+    }
+
+    static async findByUserId({ page, perPage, user_id }) {
+        const { totalPage, postListInfo } = await postModel.findByUserId({
+            page,
+            perPage,
+            user_id,
+        });
+        if (!postListInfo) {
+            throw new Error(findError("post"));
+        }
+        const payload = {
+            totalPage,
+            postListInfo,
+        };
+        return payload;
     }
 }
 

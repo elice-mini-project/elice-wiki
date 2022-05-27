@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { styled, alpha } from "@mui/material/styles";
 import {
   AppBar, //
@@ -22,63 +22,78 @@ function Header() {
   const menuId = "primary-search-account-menu";
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
+  const userState = useSelector((state) => (state ? state.userReducer.user : null));
 
   const handleProfileMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+    return setAnchorEl(event.currentTarget);
   };
   const handleMenuClose = () => {
-    setAnchorEl(null);
+    return setAnchorEl(null);
+  };
+
+  const handleClick = () => {
+    return navigate("/mypage");
   };
 
   const SearchSubmit = (event) => {
     event.preventDefault();
-    window.location.href = `/posts?search=${event.target[0].value}`;
+    return (window.location.href = `/posts?search=${event.target[0].value}`);
   };
 
-  const handleLogout = async () => {
-    await dispatch(logoutUser());
-    return navigate("/");
+  const handleLogout = () => {
+    dispatch(logoutUser());
+    return navigate("/auth");
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }} style={{ width: "100%" }}>
-      <AppBar position="static" style={{ backgroundColor: "#C4C4C4" }}>
-        <Toolbar>
-          <img
-            alt="elice_logo"
-            src="../../../image/logo_large.png"
-            style={{ width: 150, imageRendering: "auto" }}
-          />
-          <Box sx={{ flexGrow: 1 }} />
-          <Search onSubmit={SearchSubmit}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
-          </Search>
-          <Button color="inherit">Board</Button>
-          <Box sx={{ display: "flex" }}>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </Box>
-        </Toolbar>
-      </AppBar>
-      <Menu anchorEl={anchorEl} id={menuId} open={isMenuOpen} onClose={handleMenuClose}>
-        <MenuItem>My Page</MenuItem>
-        <MenuItem>My Account</MenuItem>
-        <hr />
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-      </Menu>
-    </Box>
+    <>
+      <Box sx={{ flexGrow: 1 }} style={{ width: "100%", height: "60px" }}>
+        <AppBar position="static" style={{ backgroundColor: "#C4C4C4" }}>
+          <Toolbar>
+            <img
+              alt="elice_logo"
+              src="../../../image/logo_large.png"
+              style={{ width: 150, imageRendering: "auto", cursor: "pointer" }}
+              onClick={() => navigate("/")}
+            />
+            <Box sx={{ flexGrow: 1 }} />
+            <Search onSubmit={SearchSubmit}>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase placeholder="Search…" inputProps={{ "aria-label": "search" }} />
+            </Search>
+            <Button color="inherit" onClick={() => navigate("/board")}>
+              Board
+            </Button>
+            {(userState?.admin === 0 || userState?.admin === 1) && (
+              <Button color="inherit" onClick={() => navigate("/admin/users")}>
+                Admin
+              </Button>
+            )}
+            <Box sx={{ display: "flex" }}>
+              <IconButton
+                size="large"
+                edge="end"
+                aria-label="account of current user"
+                aria-controls={menuId}
+                aria-haspopup="true"
+                onClick={handleProfileMenuOpen}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </Box>
+          </Toolbar>
+        </AppBar>
+        <Menu anchorEl={anchorEl} id={menuId} open={isMenuOpen} onClose={handleMenuClose}>
+          <MenuItem onClick={handleClick}>My Page</MenuItem>
+          <MenuItem>My Account</MenuItem>
+          <hr />
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
+      </Box>
+    </>
   );
 }
 

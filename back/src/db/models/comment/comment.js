@@ -24,10 +24,19 @@ class commentModel {
     return commentList;
   }
 
-  static async findByDepth({ groupId, parentCommentId, depth }) {
-    const comments = await models.Comment.findAll({
-      where: { groupId, parentCommentId, depth },
+  static async findByUserId({ userId }) {
+    const commentList = await models.Comment.findAll({
+      order: [["createdAt", "DESC"]],
+      where: { userId },
     });
+    return commentList;
+  }
+
+  static async findByDepth({ groupId, parentId, depth }) {
+    const comments = await models.Comment.findAll({
+      where: { groupId, parentId, depth },
+    });
+
     return comments;
   }
 

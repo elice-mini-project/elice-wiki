@@ -1,5 +1,6 @@
 import is from "@sindresorhus/is";
 import { boardService } from "../services/boardService";
+import { userService } from "../services/userService";
 import { headerError } from "../utils/errorMessages";
 
 class boardController {
@@ -10,11 +11,14 @@ class boardController {
       }
 
       const { userId } = req.currentUser;
-      const { postId, title, body } = req.body;
+      const user = await userService.findUser({ userId });
+      const userName = user["name"];
+      const { header, title, body } = req.body;
 
       await boardService.addBoard({
         userId,
-        postId,
+        userName,
+        header,
         title,
         body,
       });
@@ -36,12 +40,35 @@ class boardController {
     }
   }
 
-  static async getBoardList(req, res, next) {
+  static async getBoardListByUserId(req, res, next) {
     try {
       const { userId } = req.params;
-      const foundList = await boardService.getBoardList({ userId });
+      const foundList = await boardService.getBoardListByUserId({ userId });
 
       res.status(200).json({ status: "success", payload: foundList });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getBoardList(req, res, next) {
+    try {
+      const foundList = await boardService.getBoardList();
+
+      res.status(200).json({ status: "success", payload: foundList });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getBoardListByPage(req, res, next) {
+    try {
+      const { page, perPage } = req.query;
+      const boardList = await boardService.getBoardListByPage({
+        page: Number(page),
+        perPage: Number(perPage),
+      });
+      res.status(200).json({ status: "success", payload: boardList });
     } catch (error) {
       next(error);
     }
@@ -50,11 +77,8 @@ class boardController {
   static async setBoard(req, res, next) {
     try {
       const { boardId } = req.params;
-      const postId = req.body.postId ?? null;
-      const title = req.body.title ?? null;
-      const body = req.body.body ?? null;
 
-      const toUpdate = { postId, title, body };
+      const toUpdate = req.body;
 
       await boardService.setBoard({
         boardId,

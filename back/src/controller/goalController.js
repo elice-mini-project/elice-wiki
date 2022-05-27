@@ -11,7 +11,7 @@ class goalController {
             goal3,
             week,
         });
-        if (insert.status === "failed") {
+        if (insert.message) {
             res.status(400).json(insert.message);
         } else {
             res.status(200).json(insert.payload);
@@ -28,12 +28,12 @@ class goalController {
     }
 
     static async findGoalByWeek(req, res, next) {
-        const week = Number(req.params.week);
-        const goal = await goalService.findGoalByWeek({ week });
-        if (goal.message) {
-            res.status(400).json(goal.message);
-        } else {
-            res.status(200).json(goal);
+        try {
+            const week = Number(req.params.week);
+            const goal = await goalService.findGoalByWeek({ week });
+            res.status(200).json({ status: "success", payload: goal });
+        } catch (error) {
+            next(error);
         }
     }
 }

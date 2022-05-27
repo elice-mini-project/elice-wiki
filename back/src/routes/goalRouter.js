@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { goalController } from "../controller/goalController";
+import { loginRequired } from "../middlewares/loginRequired";
 
 const goalRouter = Router();
 
@@ -17,6 +18,8 @@ const goalRouter = Router();
  *    post:
  *      tags: [Goal]
  *      summary: insert data
+ *      security:
+ *	      - jwt: []
  *      requestBody:
  *        description: insert goal data
  *        required: true
@@ -38,7 +41,7 @@ const goalRouter = Router();
  *                          type: string
  *
  */
-goalRouter.post("/insert/goal", goalController.insert);
+goalRouter.post("/insert/goal", loginRequired, goalController.insert);
 
 /**
  * @swagger
@@ -47,6 +50,8 @@ goalRouter.post("/insert/goal", goalController.insert);
  *   get:
  *      tags: [Goal]
  *      summary: find all goal
+ *      security:
+ *	      - jwt: []
  *      responses:
  *          200:
  *           description: succ
@@ -61,7 +66,7 @@ goalRouter.post("/insert/goal", goalController.insert);
  *                          items:
  *                            $ref: '#/components/schemas/Goal'
  */
-goalRouter.get("/goals", goalController.findAllGoal);
+goalRouter.get("/goals", loginRequired, goalController.findAllGoal);
 
 /**
  * @swagger
@@ -70,6 +75,8 @@ goalRouter.get("/goals", goalController.findAllGoal);
  *   get:
  *      tags: [Goal]
  *      summary: find goal by week
+ *      security:
+ *	      - jwt: []
  *      parameters:
  *          - name: week
  *            in: path
@@ -88,5 +95,9 @@ goalRouter.get("/goals", goalController.findAllGoal);
  *                      payload:
  *                          $ref: '#/components/schemas/Goal'
  */
-goalRouter.get("/goal/week/:week", goalController.findGoalByWeek);
+goalRouter.get(
+    "/goal/week/:week",
+    loginRequired,
+    goalController.findGoalByWeek
+);
 export { goalRouter };

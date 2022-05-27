@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Divider } from "@mui/material";
 import styled from "styled-components";
-import { handleWeekClick, getGoal } from "./HomeData";
+import { getGoal } from "./HomeData";
 
 const WeekList = ({ setPosts, setGoal }) => {
   const [isClicked, setIsClicked] = useState(new Array(25).fill(false));
@@ -10,7 +10,6 @@ const WeekList = ({ setPosts, setGoal }) => {
     const week = parseInt(e.target.value) + 1;
     newArr[e.target.value] = !newArr[e.target.value];
     setIsClicked(newArr);
-    handleWeekClick(setPosts, week);
     getGoal(setGoal, week);
   };
 

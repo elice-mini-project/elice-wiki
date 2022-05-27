@@ -7,11 +7,11 @@ const matchError = (value) => {
 };
 
 const addError = (value) => {
-  return `${value} 내역을 입력할 수 없습니다. 모든 항목을 작성했는지 확인해 주세요.`;
+  return `${value}을(를) 입력할 수 없습니다. 모든 항목을 작성했는지 확인해 주세요.`;
 };
 
 const findError = (value) => {
-  return `해당하는 ${value} 내역이 없습니다. 다시 한 번 확인해 주세요.`;
+  return `해당하는 ${value} 내역이 없습니다. 입력값을 바르게 입력했는지 확인해 주세요.`;
 };
 
 const deleteError = (value) => {

@@ -9,6 +9,7 @@
  *       required:
  *          - boardId
  *          - userId
+ *          - header
  *          - title
  *          - body
  *       properties:
@@ -16,7 +17,7 @@
  *              type: string
  *          userId:
  *              type: string
- *          postId:
+ *          header:
  *              type: string
  *          title:
  *              type: string
@@ -41,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       boardId: DataTypes.STRING,
       userId: DataTypes.STRING,
-      postId: DataTypes.STRING,
+      userName: DataTypes.STRING,
+      header: DataTypes.STRING,
       title: DataTypes.STRING,
       body: DataTypes.STRING,
     },

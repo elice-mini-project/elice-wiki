@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../store/actions/userAction";
 import { useNavigate } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
@@ -12,17 +12,24 @@ const EliceUserAuth = () => {
     const [authData, setAuthData] = useState(undefined);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const userState = useSelector((state) =>
+        state ? state.userReducer.user : undefined
+    );
 
     const getAuthData = async () => {
         try {
-            const res = await Api.get("auth");
-            setAuthData(res.data);
+            const { data } = await Api.get("auth");
+            setAuthData(data.payload);
         } catch (error) {
             console.log("데이터를 불러오는데 실패햐였습니다.", error);
         }
     };
 
     useEffect(() => {
+        if (userState?.authorized) {
+            navigate("/");
+            return;
+        }
         getAuthData();
     }, []);
 
@@ -33,9 +40,9 @@ const EliceUserAuth = () => {
             const { data } = await Api.post("user/auth", {
                 answer,
             });
-            const result = data.status;
-            if (result === "fail") {
-                alert(data.payload);
+            const result = data.payload.correct;
+            if (result === false) {
+                alert(data.payload.message);
             } else {
                 dispatch(loginUser(data.payload));
                 navigate("/", { replace: true });

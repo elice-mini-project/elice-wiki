@@ -2,6 +2,7 @@ import * as Api from "../../api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../store/actions/userAction";
+import Spinner from "../Spinner";
 
 const GoogleLoading = () => {
     const navigate = useNavigate();
@@ -12,9 +13,8 @@ const GoogleLoading = () => {
 
     const googleLogin = async () => {
         try {
-            const {
-                data: { user },
-            } = await Api.post("user/sign", { accessToken });
+            const { data } = await Api.post("user/sign", { accessToken });
+            const user = data.payload;
             const jwtToken = user.token;
             sessionStorage.setItem("userToken", jwtToken);
             dispatch(loginUser(user));
@@ -25,7 +25,7 @@ const GoogleLoading = () => {
     };
     googleLogin();
 
-    return <div>로딩중...</div>;
+    return <Spinner />;
 };
 
 export default GoogleLoading;

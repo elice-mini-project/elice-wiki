@@ -19,6 +19,8 @@ tagRouter.get("/tag/:tag", tagController.getAllPostByTag);
  *   get:
  *    tags: [Tag]
  *    summary: get all tags
+ *    security:
+ *	      - jwt: []
  *    responses:
  *       200:
  *          description: succ

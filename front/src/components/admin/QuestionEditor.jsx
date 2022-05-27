@@ -19,7 +19,8 @@ const QuestionEditor = () => {
     });
 
     const getCurrentQuestion = React.useCallback(async () => {
-        const { data } = await Api.get("auth", id);
+        let { data } = await Api.get("auth", id);
+        data = data.payload;
         setTitle(data.question);
         setAnswer(data.answer);
         setUrl(data.url);

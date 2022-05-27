@@ -1,20 +1,19 @@
 import { commentModel } from "../db/models/comment/comment";
+import { v4 as uuidv4 } from "uuid";
 import { addError, findError, deleteError } from "../utils/errorMessages";
 
 class commentService {
-  static async addComment({ boardId, userId, content }) {
-    if (!boardId || !userId || !content) {
+  static async addComment({ boardId, userId, userName, content }) {
+    if (!boardId || !userId || !userName || !content) {
       const errorMessage = addError("댓글");
       throw new Error(errorMessage);
     }
-    const order = 0;
-    const depth = 0;
-    const newComment = { order, depth, boardId, userId, content };
+    const commentId = uuidv4();
+    const newComment = { commentId, boardId, userId, userName, content };
     const insertedComment = await commentModel.insertComment({ newComment });
 
-    const commentId = insertedComment.null;
-    const toUpdate = { groupId: commentId };
-
+    const { id } = insertedComment;
+    const toUpdate = { groupId: id };
     const insertedGroupId = await commentModel.update({
       commentId,
       toUpdate,
@@ -23,8 +22,8 @@ class commentService {
     return insertedGroupId;
   }
 
-  static async addReComment({ target, userId, content }) {
-    if (!target || !userId || !content) {
+  static async addReComment({ target, userId, userName, content }) {
+    if (!target || !userId || !userName || !content) {
       const errorMessage = addError("댓글");
       throw new Error(errorMessage);
     }
@@ -33,17 +32,18 @@ class commentService {
       const errorMessage = deleteError("댓글");
       throw new Error(errorMessage);
     }
-
+    const commentId = uuidv4();
     const groupId = target.groupId;
-    const parentCommentId = target.commentId;
+    const parentId = target.id;
     const depth = target.depth + 1;
     const comments = await commentModel.findByDepth({
       groupId,
-      parentCommentId,
+      parentId,
       depth,
     });
     const orderList = comments.map((comment) => comment.order);
-    const maxOrder = orderList.length > 0 ? Math.max(orderList) : target.order;
+    const maxOrder =
+      orderList.length > 0 ? Math.max(...orderList) : target.order;
     const order = maxOrder + 1;
 
     const orderRange = order;
@@ -51,12 +51,14 @@ class commentService {
 
     const boardId = target.boardId;
     const newComment = {
+      commentId,
       groupId,
-      parentCommentId,
+      parentId,
       order,
       depth,
       boardId,
       userId,
+      userName,
       content,
     };
     const insertedReComment = await commentModel.insertComment({ newComment });
@@ -76,6 +78,11 @@ class commentService {
 
   static async getCommentList({ boardId }) {
     const commentList = await commentModel.findByBoardId({ boardId });
+    return commentList;
+  }
+
+  static async getCommentListByUserId({ userId }) {
+    const commentList = await commentModel.findByUserId({ userId });
     return commentList;
   }
 

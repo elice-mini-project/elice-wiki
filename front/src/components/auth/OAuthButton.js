@@ -7,7 +7,7 @@ export const handleGoogleLogin = () => {
     const port = window.location.port;
     let url = protocol + "//" + hostName + (port ? ":" + port : "") + "/test";
     window.location.href =
-        "https://accounts.google.com/o/oauth2/auth?client_id=917034651706-impnf3jg1g4hh6des3ea5iuibtmggms8.apps.googleusercontent.com&redirect_uri=" +
+        "https://accounts.google.com/o/oauth2/auth?client_id=590638047439-2icndg9hnuf95mf4aajgua6ghijbchrt.apps.googleusercontent.com&redirect_uri=" +
         url +
         "&response_type=token&scope=https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile";
 };
