@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { styled, alpha } from "@mui/material/styles";
 import {
   AppBar, //
@@ -12,8 +14,11 @@ import {
 } from "@mui/material";
 import { AccountCircle } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
+import { logoutUser } from "../../store/actions/userAction";
 
 function Header() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const menuId = "primary-search-account-menu";
   const [anchorEl, setAnchorEl] = useState(null);
   const isMenuOpen = Boolean(anchorEl);
@@ -28,6 +33,11 @@ function Header() {
   const SearchSubmit = (event) => {
     event.preventDefault();
     window.location.href = `/posts?search=${event.target[0].value}`;
+  };
+
+  const handleLogout = async () => {
+    await dispatch(logoutUser());
+    return navigate("/");
   };
 
   return (
@@ -66,7 +76,7 @@ function Header() {
         <MenuItem>My Page</MenuItem>
         <MenuItem>My Account</MenuItem>
         <hr />
-        <MenuItem>Logout</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
       </Menu>
     </Box>
   );
