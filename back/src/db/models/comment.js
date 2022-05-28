@@ -15,6 +15,7 @@
  *          - boardId
  *          - userId
  *          - userName
+ *          - profileImg
  *          - content
  *          - isDeleted
  *       properties:
@@ -35,6 +36,8 @@
  *          userId:
  *              type: string
  *          userName:
+ *              type: string
+ *          profileImg:
  *              type: string
  *          content:
  *              type: string
@@ -79,6 +82,7 @@ module.exports = (sequelize, DataTypes) => {
       boardId: DataTypes.STRING,
       userId: DataTypes.STRING,
       userName: DataTypes.STRING,
+      profileImg: DataTypes.STRING,
       content: DataTypes.STRING,
       isDeleted: {
         type: DataTypes.BOOLEAN,

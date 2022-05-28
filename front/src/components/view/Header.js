@@ -12,7 +12,6 @@ import {
   MenuItem,
   Toolbar,
 } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
 import SearchIcon from "@mui/icons-material/Search";
 import { logoutUser } from "../../store/actions/userAction";
 
@@ -45,6 +44,7 @@ function Header() {
     return navigate("/auth");
   };
 
+<<<<<<< HEAD
   return (
     <>
       <Box sx={{ flexGrow: 1 }} style={{ width: "100%", height: "60px" }}>
@@ -83,6 +83,36 @@ function Header() {
               >
                 <AccountCircle />
               </IconButton>
+=======
+                        <Box sx={{ display: "flex" }}>
+                            <IconButton
+                                size="large"
+                                edge="end"
+                                aria-label="account of current user"
+                                aria-controls={menuId}
+                                aria-haspopup="true"
+                                onClick={handleProfileMenuOpen}
+                                color="inherit"
+                            >
+                                <img
+                                    src={userState?.profile_img}
+                                    style={{ width: "24px", height: "24px", borderRadius: "50%" }}
+                                />
+                            </IconButton>
+                        </Box>
+                    </Toolbar>
+                </AppBar>
+                <Menu anchorEl={anchorEl} id={menuId} open={isMenuOpen} onClose={handleMenuClose}>
+                    <MenuItem onClick={handleClick}>My Page</MenuItem>
+                    {(userState?.admin === 0 || userState?.admin === 1) && (
+                        <MenuItem color="inherit" onClick={() => navigate("/admin/users")}>
+                            Admin
+                        </MenuItem>
+                    )}
+                    <hr />
+                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+>>>>>>> 3525079a597457e8b4dc3e1e5be301c8a16f8b46
             </Box>
           </Toolbar>
         </AppBar>

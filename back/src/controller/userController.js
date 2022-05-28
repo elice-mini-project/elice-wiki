@@ -7,8 +7,10 @@ class userController {
         try {
             const { accessToken } = req.body;
             const { data } = await axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${accessToken}`);
-            const user = await userService.findOrCreate({ data });
-            res.status(201).json({ status: "success", payload: user });
+            if (!data.error) {
+                const user = await userService.findOrCreate({ data });
+                res.status(201).json({ status: "success", payload: user });
+            }
         } catch (error) {
             next(error);
         }

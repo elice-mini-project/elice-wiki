@@ -2,28 +2,32 @@ import React from "react";
 import MyInfo from "./MyInfo";
 import MyPostList from "./MyPostList";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as Api from "../../api";
 import { useNavigate } from "react-router-dom";
 import Header from "../view/Header";
+import { logoutUser } from "../../store/actions/userAction";
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => (state ? state.userReducer.user : undefined));
   const deleteAccount = async () => {
     if (window.confirm("정말 탈퇴하시겠습니까?")) {
       await Api.delete("user/current");
       alert("탈퇴가 완료되었습니다.");
+      dispatch(logoutUser(user));
       navigate("/");
     }
   };
+
   return (
     <Wrapper>
       <Header />
       <Logo>MyPage</Logo>
       <MyInfo user={user} />
       <MyPostList user={user} />
-      <Delete onClick={deleteAccount}>삭제</Delete>
+      <Delete onClick={deleteAccount}>탈퇴하기</Delete>
     </Wrapper>
   );
 };

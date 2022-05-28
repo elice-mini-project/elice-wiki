@@ -12,7 +12,7 @@ const ManageUsers = () => {
   const navigate = useNavigate();
   const [page, setPage] = React.useState(1);
   const [totalPage, setTotalPage] = React.useState(null);
-  const perPage = 15;
+  const perPage = 8;
 
   const handleClick = (event) => {
     const userId = event.currentTarget.innerText;
@@ -180,8 +180,7 @@ const Th = styled.th`
 `;
 const Td = styled.td`
   height: 2.5rem;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px;
   font-size: 1.2rem;
   vertical-align: middle;
   text-align: center;

@@ -15,14 +15,12 @@ import { swaggerUi, specs } from "./swagger";
 
 const app = express();
 app.use(cors());
-
-app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // 기본 페이지
 app.get("/", (req, res) => {
-  res.send("Elice Wiki");
+    res.send("Elice Wiki");
 });
 
 app.use(adminRouter);

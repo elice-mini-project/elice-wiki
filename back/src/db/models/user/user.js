@@ -28,6 +28,7 @@ class userModel {
     }
 
     static async findAndUpdate({ email, userId, fieldToUpdate }) {
+        console.log(userId, email, fieldToUpdate);
         if (userId) {
             try {
                 await models.Users.update(fieldToUpdate, { where: { __id: userId } });

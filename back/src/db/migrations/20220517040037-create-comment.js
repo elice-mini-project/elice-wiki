@@ -44,6 +44,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
+      profileImg: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
       content: {
         allowNull: false,
         type: Sequelize.STRING,

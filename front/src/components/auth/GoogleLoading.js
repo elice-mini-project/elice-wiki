@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import * as Api from "../../api";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -23,7 +24,9 @@ const GoogleLoading = () => {
       console.log("OAuth 에러", e);
     }
   };
-  googleLogin();
+  useEffect(() => {
+    googleLogin();
+  }, []);
 
   return <Spinner />;
 };

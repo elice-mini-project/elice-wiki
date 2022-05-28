@@ -1,59 +1,33 @@
 import React from "react";
 import { Typography, Input, Button } from "@mui/material";
 import * as Api from "../../api";
+import { loginUser } from "../../store/actions/userAction";
+import { useDispatch } from "react-redux";
 
 const MyInfo = ({ user }) => {
-  const [stashName, setStashName] = React.useState(null);
-  const [name, setName] = React.useState(user.name);
-  const [isWriting, setIsWriting] = React.useState(false);
-  const onClickHandler = () => {
-    setStashName(name);
-    setIsWriting(!isWriting);
-  };
-  const save = React.useCallback(async () => {
-    await Api.put("user/current", { name });
-    setIsWriting(!isWriting);
-  });
-  const onChangeHandler = (e) => {
-    setName(e.target.value);
-  };
-  const keyUpHandler = (e) => {
-    if (e.key === "Enter") {
-      save();
-    }
-  };
-  return (
-    <div
-      style={{
-        display: "flex",
-        marginBottom: "70px",
-        justifyContent: "center",
-        border: "1px solid #7353ea",
-        width: "fit-content",
-        borderRadius: "20px",
-        overflow: "hidden",
-      }}
-    >
-      <img src="/image/eliceprofile.png" draggable="false" style={{ height: "350px" }} />
-      <div
-        style={{
-          width: "fit-content",
-          width: "308px",
-          height: "350px",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <img
-          src={user.profile_img}
-          draggable="false"
-          style={{ width: "110px", height: "110px", borderRadius: "50%" }}
-        />
-        <Typography sx={{ fontWeight: "bold", marginBottom: "20px", fontSize: "1.3rem" }}>
-          {user.email}
-        </Typography>
+    const dispatch = useDispatch();
+    const [stashName, setStashName] = React.useState(null);
+    const [name, setName] = React.useState(user.name);
+    const [isWriting, setIsWriting] = React.useState(false);
+    const onClickHandler = () => {
+        setStashName(name);
+        setIsWriting(!isWriting);
+    };
+    const save = React.useCallback(async () => {
+        const { data } = await Api.put("user/current", { name });
+        const user = data.payload;
+        dispatch(loginUser(user));
+        setIsWriting(!isWriting);
+    });
+    const onChangeHandler = (e) => {
+        setName(e.target.value);
+    };
+    const keyUpHandler = (e) => {
+        if (e.key === "Enter") {
+            save();
+        }
+    };
+    return (
         <div
           style={{
             display: "flex",

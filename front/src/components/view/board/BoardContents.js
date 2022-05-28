@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import {
   Card,
@@ -11,37 +10,37 @@ import {
 } from "@mui/material/";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import * as Api from "../../../api";
 
-// import Confirm from "../Confirm";
-
-function BoardContents({ setIsEditing, isEditable, handleDelete, boardData }) {
+function BoardContents({ setIsEditing, isEditable, boardData }) {
   const navigate = useNavigate();
-  const { title, content, createdAt, author } = boardData;
-  const [open, setOpen] = useState(false);
-  const confirmTitle = "게시글을 삭제하실 건가요?";
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const { title, body, createdAt, userName, header, boardId } = boardData;
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleDelete = async () => {
+    try {
+      if (window.confirm("게시글을 삭제하실 건가요?")) {
+        await Api.delete("boards", boardId);
+        navigate("/board");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   return (
     <>
-      <Card sx={{ minWidth: 275 }}>
+      <Card sx={{ minWidth: 275 }} variant="outlined">
         <CardHeader
           action={
             <Button size="small" onClick={() => navigate("/board")}>
               목록
             </Button>
           }
-          title={title}
-          subheader={`${author} | ${createdAt.slice(0, 10)}`}
+          title={`[${header}]${title}`}
+          subheader={`${userName} | ${createdAt.slice(0, 10)}`}
         />
         <CardContent>
           <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {content}
+            {body}
           </Typography>
         </CardContent>
 
@@ -51,7 +50,7 @@ function BoardContents({ setIsEditing, isEditable, handleDelete, boardData }) {
               <IconButton onClick={() => setIsEditing(true)} sx={{ marginLeft: "auto" }}>
                 <EditIcon />
               </IconButton>
-              <IconButton onClick={() => handleClickOpen()}>
+              <IconButton onClick={() => handleDelete()}>
                 <DeleteIcon />
               </IconButton>
               {/* <Confirm

@@ -9,7 +9,7 @@ const ManageUsers = () => {
   const [checkedList, setCheckedList] = React.useState([]);
   const [page, setPage] = React.useState(1);
   const [totalPage, setTotalPage] = React.useState();
-  const perPage = 15;
+  const perPage = 8;
   const user = useSelector((state) => (state ? state.userReducer.user : undefined));
 
   const getData = React.useCallback(async () => {
@@ -178,8 +178,7 @@ const Th = styled.th`
 `;
 const Td = styled.td`
   height: 2.5rem;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding: 10px;
   font-size: 1.2rem;
   vertical-align: middle;
   text-align: center;

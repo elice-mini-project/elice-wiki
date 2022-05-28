@@ -23,20 +23,15 @@ class userService {
             if (signedUser.error) {
                 throw new Error(signedUser.error);
             }
-        } else if (profile_img !== user.dataValues.profile_img) {
-            const fieldToUpdate = { profile_img };
-            signedUser = await userModel.findAndUpdate({ email, fieldToUpdate });
-            if (signedUser.error) {
-                throw new Error(signedUser.error);
-            }
+            signedUser = signedUser.dataValues;
         } else {
             signedUser = { ...user.dataValues };
         }
 
-        const secretKey = process.env.JWT_SECRET_KEY;
+        const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
 
         if (secretKey) {
-            const token = jwt.sign({ userId: user.__id }, secretKey);
+            const token = jwt.sign({ userId: signedUser.__id }, secretKey);
             const loginUser = {
                 token,
                 ...signedUser,

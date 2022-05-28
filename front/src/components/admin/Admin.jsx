@@ -16,7 +16,16 @@ const Admin = () => {
     const user = useSelector((state) => (state ? state.userReducer.user : undefined));
 
     return (
-        <div style={{ width: "100%", height: "100vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+        <div
+            style={{
+                width: "100%",
+                height: "100vh",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+            }}
+        >
             <LogoHome
                 src="/image/logo_small.png"
                 alt="TOHOME"
@@ -26,13 +35,25 @@ const Admin = () => {
                 draggable="false"
             />
             <NavBar>
-                <NavBtn onClick={clickHandler} name="users" color={selected === "users" ? "#c2c2c2" : "#e0e0e0"}>
+                <NavBtn
+                    onClick={clickHandler}
+                    name="users"
+                    color={selected === "users" ? "#c2c2c2" : "#e0e0e0"}
+                >
                     유저관리
                 </NavBtn>
-                <NavBtn onClick={clickHandler} name="posts" color={selected === "posts" ? "#c2c2c2" : "#e0e0e0"}>
+                <NavBtn
+                    onClick={clickHandler}
+                    name="posts"
+                    color={selected === "posts" ? "#c2c2c2" : "#e0e0e0"}
+                >
                     포스트관리
                 </NavBtn>
-                <NavBtn onClick={clickHandler} name="board" color={selected === "board" ? "#c2c2c2" : "#e0e0e0"}>
+                <NavBtn
+                    onClick={clickHandler}
+                    name="board"
+                    color={selected === "board" ? "#c2c2c2" : "#e0e0e0"}
+                >
                     게시판관리
                 </NavBtn>
                 <NavBtn
@@ -59,7 +80,7 @@ const NavBar = styled.div`
 const NavBtn = styled.button`
     border: none;
     border-radius: 10px 10px 0 0;
-    width: 10rem;
+    width: 8rem;
     height: 3rem;
     font-size: 1.2rem;
     font-weight: bold;
@@ -81,8 +102,8 @@ const LogoHome = styled.img`
     -webkit-user-select: none;
     cursor: pointer;
     width: 50px;
-    position: absolute;
-    top: 10px;
+    position: relative;
+    margin: 10px 0 10px 0;
     &:hover {
         opacity: 0.6;
     }

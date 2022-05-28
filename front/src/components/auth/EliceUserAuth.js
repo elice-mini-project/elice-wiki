@@ -33,7 +33,6 @@ const EliceUserAuth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
       const { data } = await Api.post("user/auth", {
         answer,
@@ -43,10 +42,11 @@ const EliceUserAuth = () => {
         alert(data.payload.message);
       } else {
         dispatch(loginUser(data.payload));
+        alert("인증 성공!");
         navigate("/", { replace: true });
       }
     } catch (error) {
-      console.log("인증에 실패햐였습니다.", error);
+      console.log("인증 실패ㅠㅠ", error);
     }
   };
 

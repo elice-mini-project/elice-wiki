@@ -3,13 +3,20 @@ import { v4 as uuidv4 } from "uuid";
 import { addError, findError, deleteError } from "../utils/errorMessages";
 
 class commentService {
-  static async addComment({ boardId, userId, userName, content }) {
+  static async addComment({ boardId, userId, userName, profileImg, content }) {
     if (!boardId || !userId || !userName || !content) {
       const errorMessage = addError("댓글");
       throw new Error(errorMessage);
     }
     const commentId = uuidv4();
-    const newComment = { commentId, boardId, userId, userName, content };
+    const newComment = {
+      commentId,
+      boardId,
+      userId,
+      userName,
+      profileImg,
+      content,
+    };
     const insertedComment = await commentModel.insertComment({ newComment });
 
     const { id } = insertedComment;
@@ -22,7 +29,7 @@ class commentService {
     return insertedGroupId;
   }
 
-  static async addReComment({ target, userId, userName, content }) {
+  static async addReComment({ target, userId, userName, profileImg, content }) {
     if (!target || !userId || !userName || !content) {
       const errorMessage = addError("댓글");
       throw new Error(errorMessage);
@@ -59,6 +66,7 @@ class commentService {
       boardId,
       userId,
       userName,
+      profileImg,
       content,
     };
     const insertedReComment = await commentModel.insertComment({ newComment });

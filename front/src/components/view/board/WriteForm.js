@@ -1,9 +1,60 @@
-import { Grid, TextareaAutosize } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import {
+  Grid,
+  TextareaAutosize,
+  MenuItem,
+  FormControl,
+  Select,
+  OutlinedInput,
+} from "@mui/material";
 import styled from "styled-components";
 
-function WriteForm({ title, setTitle, body, setBody }) {
+const headers = ["공지", "학습", "잡담"];
+
+const getStyles = (name, header, theme) => {
+  return {
+    fontWeight:
+      header.indexOf(name) === -1
+        ? theme.typography.fontWeightRegular
+        : theme.typography.fontWeightMedium,
+  };
+};
+
+function WriteForm({ title, setTitle, body, setBody, header, setHeader }) {
+  const theme = useTheme();
+
+  const handleChange = (e) => {
+    setHeader(e.target.value);
+  };
+
   return (
     <>
+      <FormControl sx={{ width: "20%", mt: 3 }}>
+        <Select
+          displayEmpty
+          value={header}
+          onChange={handleChange}
+          input={<OutlinedInput />}
+          renderValue={(selected) => {
+            if (selected?.length === 0) {
+              return <em>머리말 선택</em>;
+            }
+
+            return selected;
+          }}
+          inputProps={{ "aria-label": "Without label" }}
+        >
+          <MenuItem disabled value="">
+            <em>머리말을 선택하세요</em>
+          </MenuItem>
+          {headers.map((header) => (
+            <MenuItem key={header} value={header} style={getStyles(header, header, theme)}>
+              {header}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
       <Grid
         sx={{
           width: "100%",
@@ -18,7 +69,6 @@ function WriteForm({ title, setTitle, body, setBody }) {
           onChange={(e) => setTitle(e.target.value)}
         />
       </Grid>
-
       <Grid
         sx={{
           width: "100%",

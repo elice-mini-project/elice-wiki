@@ -12,12 +12,14 @@ class commentController {
       const { userId } = req.currentUser;
       const user = await userService.findUser({ userId });
       const userName = user["name"];
+      const profileImg = user["profile_img"];
       const { boardId, content } = req.body;
 
       await commentService.addComment({
         boardId,
         userId,
         userName,
+        profileImg,
         content,
       });
 
@@ -35,12 +37,14 @@ class commentController {
       const { userId } = req.currentUser;
       const user = await userService.findUser({ userId });
       const userName = user["name"];
+      const profileImg = user["profile_img"];
       const { target, content } = req.body;
 
       await commentService.addReComment({
         target,
         userId,
         userName,
+        profileImg,
         content,
       });
 

@@ -1,24 +1,32 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
-import { Box, Container, CssBaseline, Divider } from "@mui/material/";
+import { Box, Container } from "@mui/material/";
 import BoardEditForm from "./BoardEditForm";
 import BoardContents from "./BoardContents";
 import Spinner from "../../Spinner";
-// import Comments from "../comment/Comments";
+import Comment from "../comment/Comment";
 import * as Api from "../../../api";
 
 function BoardDetail() {
-  const navigate = useNavigate();
   const params = useParams();
   const boardId = params.id;
-  const [boardData, setBoardData] = useState(undefined);
+  const [boardData, setBoardData] = useState(null);
+  const [commentList, setCommentList] = useState(null);
   const [isEditable, setIsEditable] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
 
-  const userState = useSelector((state) => (state ? state.userReducer.user : undefined));
+  const userState = useSelector((state) => (state ? state.userReducer.user : null));
+
+  const fetchCommentList = async () => {
+    try {
+      const { data } = await Api.get("commentlist/board", boardId);
+      setCommentList(data.payload);
+    } catch (e) {
+      console.log("댓글을 불러오는데 실패했습니다.", e);
+    }
+  };
 
   const fetchDetailInfo = async () => {
     try {
@@ -37,33 +45,23 @@ function BoardDetail() {
 
   useEffect(() => {
     fetchDetailInfo();
+    fetchCommentList();
   }, [params]);
 
   if (!isFetchCompleted) {
     return <Spinner />;
   }
 
-  const handleDelete = async () => {
-    try {
-      await Api.delete("boards", boardId);
-      navigate("/board");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   return (
     <React.Fragment>
-      <CssBaseline />
       <Container maxWidth="md">
         <Box
           sx={{
             width: "100%",
             height: "100vh",
-            marginTop: "60px",
+            marginTop: "3%",
           }}
         >
-          <Divider />
           {isEditing ? (
             <BoardEditForm
               setIsEditing={setIsEditing}
@@ -77,12 +75,8 @@ function BoardDetail() {
                 boardData={boardData}
                 setIsEditing={setIsEditing}
                 isEditable={isEditable}
-                handleDelete={handleDelete}
               />
-              {/* <Comments
-                            comments={contents.comment}
-                            contentId={contentId}
-                            /> */}
+              <Comment boardId={boardId} commentList={commentList} />
             </>
           )}
         </Box>

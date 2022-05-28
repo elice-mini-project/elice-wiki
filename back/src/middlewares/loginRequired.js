@@ -12,7 +12,10 @@ function loginRequired(req, res, next) {
 
     // 해당 token 이 정상적인 token인지 확인 -> 토큰에 담긴 user_id 정보 추출
     try {
-        const secretKey = process.env.JWT_SECRET_KEY || "secret-key";
+        const secretKey = process.env.JWT_SECRET_KEY || "jwt-secret-key";
+        if (!secretKey) {
+            throw new Error("env파일을 확인해 주세요.");
+        }
         const jwtDecoded = jwt.verify(userToken, secretKey);
         console.log(jwtDecoded);
         req.currentUser = jwtDecoded;

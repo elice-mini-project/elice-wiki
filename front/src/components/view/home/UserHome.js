@@ -9,8 +9,8 @@ import Header from "../Header";
 import RecentList from "./RecentList";
 
 function UserHome() {
-  const [tags, setTags] = useState(null);
-  const [goal, setGoal] = useState(null);
+  const [tags, setTags] = useState(undefined);
+  const [goal, setGoal] = useState(undefined);
   const [isFetchCompleted, setIsFetchCompleted] = useState(false);
 
   useEffect(() => {
@@ -23,25 +23,23 @@ function UserHome() {
   }
 
   return (
-    <>
-      <div style={{ minHeight: "100vh", height: "auto" }}>
-        <Header />
-        <WeekNav setGoal={setGoal} />
-        <Container>
-          <ContentsSide>
-            <div style={{ padding: "0 3%" }}>
-              <TagBtn tags={tags} />
-            </div>
-          </ContentsSide>
-          <Contents>
-            <Outlet />
-          </Contents>
-          <ContentsSide>
-            {goal && <Goal goal={goal} />} <RecentList />
-          </ContentsSide>
-        </Container>
-      </div>
-    </>
+    <div style={{ minHeight: "100vh", height: "auto" }}>
+      <Header />
+      <WeekNav setGoal={setGoal} />
+      <Container>
+        <ContentsSide>
+          <div style={{ padding: "0 3%" }}>
+            <TagBtn tags={tags} />
+          </div>
+        </ContentsSide>
+        <Contents>
+          <Outlet />
+        </Contents>
+        <ContentsSide>
+          {goal && <Goal goal={goal} />} <RecentList />
+        </ContentsSide>
+      </Container>
+    </div>
   );
 }
 
@@ -55,7 +53,7 @@ const Container = styled.div`
 `;
 
 const ContentsSide = styled.div`
-  width: 25%;
+  width: 17.5%;
   background-color: white;
   display: flex;
   padding: 2% 1%;
@@ -64,5 +62,5 @@ const ContentsSide = styled.div`
 `;
 
 const Contents = styled.div`
-  width: 50%;
+  width: 65%;
 `;
