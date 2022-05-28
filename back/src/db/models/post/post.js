@@ -85,6 +85,11 @@ class postModel {
         const query = {
             tag: { [Op.substring]: tag },
         };
+        if (perPage === -1) {
+            const rows = await models.Post.findAll({ where: query });
+            const postListInfo = getPostList(rows);
+            return { totalPage: 1, postListInfo };
+        }
         const { totalPage, rows } = await postPagination({
             page,
             perPage,

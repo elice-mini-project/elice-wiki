@@ -37,6 +37,15 @@ const Intro = () => {
       </section>
       <div className={styles["subSection"]}>
         <p className={styles["subDescription"]} {...animatedItem[1]}>
+          자신의 학습을 기록하고, 다른 레이서들의 기록으로 함께 학습해보세요.
+          <br />
+          <span>#elice-wiki</span>는 엘리스 AI 트랙에 참여하는 레이서들의
+          <br />
+          <span>지식 공동체</span>입니다.
+        </p>
+      </div>
+      <div className={styles["subSection"]}>
+        <p className={styles["subDescription"]} {...animatedItem[1]}>
           모든 레이서들의 학습을 한눈에 보고, 자신의 학습을 기록해보세요.
           <br />
           <span>#elice-wiki</span> 는 엘리스 AI 트랙에 참여하는 레이서를 위한

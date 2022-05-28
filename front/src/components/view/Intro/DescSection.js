@@ -75,31 +75,31 @@ export const DescSection = () => {
     <DescWrapper>
       <InnerWrapper {...animatedItem[0]}>
         <ContentWrapper>
-          <Title1>간단한 기능설명</Title1>
+          <Title1>커리큘럼에 따른 학습 기록</Title1>
           <Description>
-            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요. 제가 무슨 말을
-            하는지 이해하지 못하도록 설명을 최소화했어요.
+            본인의 말로 학습한 내용을 기록해 보세요. 구글링으로 추가 학습한 내용이어도 좋아요. 더
+            오래, 더 잘 기억날거에요. 또, 기록으로 이전에 배운 내용을 상기해보세요. 지금까지 걸어온
+            길이 한 눈에 잘 보일거에요.
           </Description>
         </ContentWrapper>
         <ContentWrapper>
-          <Title2>간단한 기능설명</Title2>
+          <Title2>학습 기록 공유</Title2>
           <Description>
-            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요. 제가 무슨 말을
-            하는지 이해하지 못하도록 설명을 최소화했어요.
+            동료 레이서의 학습 기록으로 학습해보세요. 함께 성장한다는 것은 큰 동기 부여가 될거에요.
           </Description>
         </ContentWrapper>
         <ContentWrapper>
-          <Title3>간단한 기능설명</Title3>
+          <Title3>학습 관련 토론</Title3>
           <Description>
-            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요. 제가 무슨 말을
-            하는지 이해하지 못하도록 설명을 최소화했어요.
+            자유게시판을 이용해 학습한 내용에 대한 깊은 토론을 나눠보세요. 수박 겉핥기 학습에서
+            벗어날 수 있을거에요.
           </Description>
         </ContentWrapper>
         <ContentWrapper>
-          <Title4>간단한 기능설명</Title4>
+          <Title4>최초 생성자 기록</Title4>
           <Description>
-            엘리스 위키는 기본 12시 54분을 기반으로 가장 단순한 내용을 지향해요. 제가 무슨 말을
-            하는지 이해하지 못하도록 설명을 최소화했어요.
+            편집자 기록이 남는 위키 서비스에요. 열심히 기여하여 취업시 포트폴리오로 활용할 수
+            있을거에요.
           </Description>
         </ContentWrapper>
       </InnerWrapper>

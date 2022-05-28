@@ -30,6 +30,11 @@ const Title = styled.span`
   font-weight: bold;
   line-height: 56px;
   color: #000000;
+  span {
+    background: linear-gradient(90deg, #5438d1, #8938d1 60%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 `;
 
 const Description = styled.span`
@@ -62,7 +67,7 @@ const CardSection = () => {
     <>
       <TopContainer>
         <TextWrapper {...animatedItem[0]}>
-          <Title>누군가 멋진 제목을 지어주세요</Title>
+          <Title>WHY <span>#elice-wiki?</span></Title>
           <Description>
             두 질문에 대한 답으로, 우리는 마음을 담아 #elice-wiki를 준비했습니다.
           </Description>

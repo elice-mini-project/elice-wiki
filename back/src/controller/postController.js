@@ -64,7 +64,7 @@ class postController {
     static async getPostsByTag(req, res, next) {
         try {
             const tag = req.params.tag;
-            const { page, perPage } = req.query;
+            const { page = 1, perPage = -1 } = req.query;
             const posts = await postService.getPostsByTag({
                 tag,
                 page: Number(page),
@@ -108,7 +108,7 @@ class postController {
 
     static async findAllPost(req, res, next) {
         try {
-            const { page, perPage } = req.query;
+            const { page = 1, perPage = 10 } = req.query;
             const posts = await postService.getAllPost({
                 page: Number(page),
                 perPage: Number(perPage),
