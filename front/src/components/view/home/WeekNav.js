@@ -25,7 +25,7 @@ const WeekNav = ({ setGoal }) => {
         </Button>
 
         {new Array(24).fill(null).map((_, idx) => (
-          <>
+          <div key={idx}>
             <Button
               value={idx}
               key={`week_${idx}`}
@@ -42,7 +42,7 @@ const WeekNav = ({ setGoal }) => {
               {String(idx + 1).padStart(2, "0")}
             </Button>
             <Divider orientation="vertical" variant="middle" flexItem />
-          </>
+          </div>
         ))}
 
         {/* <Button

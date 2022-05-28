@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { getPosts, getTags } from "./HomeData";
 import Header from "../Header";
-import PostList from "./PostList";
 import RecentList from "./RecentList";
 import Goal from "./Goal";
 import TagBtn from "./TagBtn";
