@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../store/actions/userAction";
 
-const Search = styled("div")(({ theme }) => ({
+const Search = styled("form")(({ theme }) => ({
     position: "relative",
     borderRadius: theme.shape.borderRadius,
     backgroundColor: alpha(theme.palette.common.white, 0.15),
@@ -81,61 +81,65 @@ function Header() {
         navigate("/mypage");
     };
 
-    return (
-        <>
-            <Box sx={{ flexGrow: 1 }} style={{ width: "100%", height: "60px" }}>
-                <AppBar position="static" style={{ backgroundColor: "#C4C4C4" }}>
-                    <Toolbar>
-                        <img
-                            alt="elice_logo"
-                            src="../../../image/logo_large.png"
-                            style={{ width: 150, imageRendering: "auto", cursor: "pointer" }}
-                            onClick={() => navigate("/home")}
-                        />
-                        <Box sx={{ flexGrow: 1 }} />
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon />
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Search…"
-                                inputProps={{ "aria-label": "search" }}
-                            />
-                        </Search>
-                        <Button color="inherit" onClick={() => navigate("/board")}>
-                            Board
-                        </Button>
+    const handleSearch = (event) => {
+        event.preventDefault();
+        return (window.location.href = `/posts?search=${event.target[0].value}`);
+    };
 
-                        <Box sx={{ display: "flex" }}>
-                            <IconButton
-                                size="large"
-                                edge="end"
-                                aria-label="account of current user"
-                                aria-controls={menuId}
-                                aria-haspopup="true"
-                                onClick={handleProfileMenuOpen}
-                                color="inherit"
-                            >
-                                <img
-                                    src={userState?.profile_img}
-                                    style={{ width: "24px", height: "24px", borderRadius: "50%" }}
-                                />
-                            </IconButton>
-                        </Box>
-                    </Toolbar>
-                </AppBar>
-                <Menu anchorEl={anchorEl} id={menuId} open={isMenuOpen} onClose={handleMenuClose}>
-                    <MenuItem onClick={handleClick}>My Page</MenuItem>
-                    {(userState?.admin === 0 || userState?.admin === 1) && (
-                        <MenuItem color="inherit" onClick={() => navigate("/admin/users")}>
-                            Admin
-                        </MenuItem>
-                    )}
-                    <hr />
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </Menu>
-            </Box>
-        </>
+    return (
+        <Box sx={{ flexGrow: 1 }} style={{ width: "100%", height: "60px" }}>
+            <AppBar position="static" style={{ backgroundColor: "#C4C4C4" }}>
+                <Toolbar>
+                    <img
+                        alt="elice_logo"
+                        src="../../../image/logo_large.png"
+                        style={{ width: 150, imageRendering: "auto", cursor: "pointer" }}
+                        onClick={() => navigate("/home")}
+                    />
+                    <Box sx={{ flexGrow: 1 }} />
+                    <Search onSubmit={handleSearch}>
+                        <SearchIconWrapper onClick={handleSearch}>
+                            <SearchIcon />
+                        </SearchIconWrapper>
+                        <StyledInputBase
+                            placeholder="Search…"
+                            inputProps={{ "aria-label": "search" }}
+                        />
+                    </Search>
+                    <Button color="inherit" onClick={() => navigate("/board")}>
+                        Board
+                    </Button>
+
+                    <Box sx={{ display: "flex" }}>
+                        <IconButton
+                            size="large"
+                            edge="end"
+                            aria-label="account of current user"
+                            aria-controls={menuId}
+                            aria-haspopup="true"
+                            onClick={handleProfileMenuOpen}
+                            color="inherit"
+                        >
+                            <img
+                                alt="User Profile"
+                                src={userState?.profile_img}
+                                style={{ width: "24px", height: "24px", borderRadius: "50%" }}
+                            />
+                        </IconButton>
+                    </Box>
+                </Toolbar>
+            </AppBar>
+            <Menu anchorEl={anchorEl} id={menuId} open={isMenuOpen} onClose={handleMenuClose}>
+                <MenuItem onClick={handleClick}>My Page</MenuItem>
+                {(userState?.admin === 0 || userState?.admin === 1) && (
+                    <MenuItem color="inherit" onClick={() => navigate("/admin/users")}>
+                        Admin
+                    </MenuItem>
+                )}
+                <hr />
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+            </Menu>
+        </Box>
     );
 }
 

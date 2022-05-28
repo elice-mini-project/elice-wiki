@@ -18,34 +18,33 @@ const WeekNav = ({ setGoal }) => {
     };
 
     return (
-        <>
-            <NavContainer>
-                <Button disabled style={{ color: "black", fontWeight: "bold" }}>
-                    WEEK
-                </Button>
+        <NavContainer>
+            <Button disabled style={{ color: "black", fontWeight: "bold" }}>
+                WEEK
+            </Button>
 
-                {new Array(24).fill(null).map((_, idx) => (
-                    <>
-                        <Button
-                            value={idx}
-                            key={`week_${idx}`}
-                            size="small"
-                            variant={isClicked[idx] ? "contained" : "text"}
-                            sx={{
-                                minWidth: "2.5%",
-                                maxHeight: "60%",
-                                borderRadius: "30px",
-                                margin: "0 3px",
-                            }}
-                            onClick={handleClick}
-                        >
-                            {String(idx + 1).padStart(2, "0")}
-                        </Button>
-                        <Divider orientation="vertical" variant="middle" flexItem />
-                    </>
-                ))}
+            {new Array(24).fill(null).map((_, idx) => (
+                <div key={idx}>
+                    <Button
+                        value={idx}
+                        key={`week_${idx}`}
+                        size="small"
+                        variant={isClicked[idx] ? "contained" : "text"}
+                        sx={{
+                            minWidth: "2.5%",
+                            maxHeight: "60%",
+                            borderRadius: "30px",
+                            margin: "0 3px",
+                        }}
+                        onClick={handleClick}
+                    >
+                        {String(idx + 1).padStart(2, "0")}
+                    </Button>
+                    <Divider orientation="vertical" variant="middle" flexItem />
+                </div>
+            ))}
 
-                {/* <Button
+            {/* <Button
                     value={24}
                     variant={isClicked[24] ? "contained" : "text"}
                     size="small"
@@ -59,8 +58,7 @@ const WeekNav = ({ setGoal }) => {
                 >
                     기타
                 </Button> */}
-            </NavContainer>
-        </>
+        </NavContainer>
     );
 };
 

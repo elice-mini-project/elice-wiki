@@ -1,25 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { getTags, getPosts } from "./HomeData";
 import Goal from "./Goal";
 import TagBtn from "./TagBtn";
-import { getTags } from "./HomeData";
 import WeekNav from "./WeekNav";
-import styled from "styled-components";
 import Header from "../Header";
 import RecentList from "./RecentList";
+import Post from "./Post";
+import styled from "styled-components";
 
-function UserHome() {
-    const [tags, setTags] = useState(undefined);
-    const [goal, setGoal] = useState(undefined);
+function Search() {
+    const location = useLocation();
+    const [query, setQuery] = useState("");
+    const [posts, setPosts] = useState([]);
+    const [tags, setTags] = useState(null);
+    const [goal, setGoal] = useState(null);
     const [isFetchCompleted, setIsFetchCompleted] = useState(false);
+
+    const fetchSetState = (data) => {
+        setPosts((prev) => [...prev, ...data.payload.postListInfo]);
+    };
 
     useEffect(() => {
         getTags(setTags);
         setIsFetchCompleted(true);
+        getPosts(1, fetchSetState);
+        setQuery(new URLSearchParams(location.search).get("search"));
     }, []);
 
     if (!isFetchCompleted) {
-        return <div>로딩중</div>;
+        return <div>Loading...</div>;
     }
 
     return (
@@ -33,7 +43,10 @@ function UserHome() {
                     </div>
                 </ContentsSide>
                 <Contents>
-                    <Outlet />
+                    {posts
+                        .filter((post) => post.title.match(new RegExp(query, "i")))
+                        .map((post, idx) => <Post key={idx} post={post} idx={idx} />)
+                        .slice(0, 5)}
                 </Contents>
                 <ContentsSide>
                     {goal && <Goal goal={goal} />} <RecentList />
@@ -43,7 +56,7 @@ function UserHome() {
     );
 }
 
-export default UserHome;
+export default Search;
 
 const Container = styled.div`
     display: flex;

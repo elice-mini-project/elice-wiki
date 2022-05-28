@@ -23,6 +23,7 @@ import BoardAddForm from "./components/view/board/BoardAddForm";
 import Spinner from "./components/Spinner";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import GlobalStyle from "./GlobalStyle";
+import Search from "./components/view/home/Search";
 
 const theme = createTheme({
     palette: {
@@ -84,6 +85,7 @@ function App() {
                             <Route path="/board/create" exact element={<BoardAddForm />} />
                         </>
                     )}
+                    <Route path="/posts" exact element={<Search />} />
                     <Route path="/test" exact element={<GoogleLoading />} />
                     <Route path="*" element={<Home />} />
                     {(userState?.admin === 0 || userState?.admin === 1) && (
